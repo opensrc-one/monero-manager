@@ -1,0 +1,8 @@
+# Directories
+vendor/
+monerod/
+.idea/
+
+# Files
+composer.lock
+composer.phar
