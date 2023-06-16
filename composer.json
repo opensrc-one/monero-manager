@@ -1,0 +1,21 @@
+{
+    "name": "opensrc-one/monero-manager",
+    "description": "Manage Monero wallets and transactions.",
+    "keywords": ["monero", "manager", "crypto", "privacy", "tor", "wallet"],
+    "homepage": "https://github.com/opensrc-one/monero-manager",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "opensrc.one",
+            "email": "contact@opensrc.one",
+            "homepage": "https://opensrc.one"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        
+    }
+}
