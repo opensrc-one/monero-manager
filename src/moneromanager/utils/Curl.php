@@ -14,10 +14,11 @@ class Curl {
     }
 
     /**
-     * Set cURL options
-     * @param array|NULL $curl_options cURL options
+     * Set cURL options (Defaults: [CURLOPT_RETURNTRANSFER(true), CURLOPT_HEADER(FALSE), CURLOPT_CONNECTTIMEOUT(120),
+     * CURLOPT_TIMEOUT(120)])
+     * @param array|NULL $extra_curl_options cURL options
      */
-    public function setup(array $curl_options=NULL): void {
+    public function setup(array $extra_curl_options=NULL): void {
         $this->curl = curl_init("$this->uri");
 
         $default_curl_options = [
@@ -27,7 +28,7 @@ class Curl {
             CURLOPT_TIMEOUT        => 120
         ];
 
-        $parsed_curl_options = (NULL !== $curl_options ? ($default_curl_options + $curl_options) : $default_curl_options);
+        $parsed_curl_options = (NULL !== $extra_curl_options ? ($default_curl_options + $extra_curl_options) : $default_curl_options);
         curl_setopt_array($this->curl, $parsed_curl_options);
     }
 
