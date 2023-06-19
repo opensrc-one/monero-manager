@@ -15,10 +15,10 @@ class Curl {
 
     /**
      * Set cURL options (Defaults: [CURLOPT_RETURNTRANSFER(true), CURLOPT_HEADER(FALSE), CURLOPT_CONNECTTIMEOUT(120),
-     * CURLOPT_TIMEOUT(120)])
-     * @param array|NULL $extra_curl_options cURL options
+     * CURLOPT_TIMEOUT(120)]).
+     * @param array|NULL $extra_curl_options cURL options.
      */
-    public function setup(array $extra_curl_options=NULL): void {
+    public function setup(array|NULL $extra_curl_options=NULL): void {
         $this->curl = curl_init("$this->uri");
 
         $default_curl_options = [
@@ -33,9 +33,9 @@ class Curl {
     }
 
     /**
-     * Execute created cURL object
-     * @return string cURL response
-     * @throws RuntimeException On cURL error
+     * Execute created cURL object.
+     * @return string cURL response.
+     * @throws RuntimeException On cURL error.
      */
     public function execute(): string {
         $response = curl_exec($this->curl);
