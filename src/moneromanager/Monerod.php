@@ -1,10 +1,26 @@
 <?php
+////////////////////////////////////////////////////////////////////////////
+// monero-manager                                                         //
+// Copyright (c) 2023 opensrc.one                                         //
+//                                                                        //
+// This program is free software: you can redistribute it and/or modify   //
+// it under the terms of the GNU General Public License as published by   //
+// the Free Software Foundation, either version 3 of the License, or      //
+// (at your option) any later version.                                    //
+//                                                                        //
+// This program is distributed in the hope that it will be useful,        //
+// but WITHOUT ANY WARRANTY; without even the implied warranty of         //
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          //
+// GNU General Public License for more details.                           //
+//                                                                        //
+// You should have received a copy of the GNU General Public License      //
+// along with this program.  If not, see <https://www.gnu.org/licenses/>. //
+////////////////////////////////////////////////////////////////////////////
 namespace moneromanager;
 
 include('utils/RPC.php');
 
 use moneromanager\utils\RPC;
-use RuntimeException;
 
 class Monerod extends RPC {
     public function __construct(string $host, string $port) {
@@ -13,8 +29,8 @@ class Monerod extends RPC {
 
     /**
      * Look up how many blocks are in the longest chain known to the node.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_count(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -24,8 +40,8 @@ class Monerod extends RPC {
     /**
      * Look up a block's hash by its height.
      * @param int $block_height Block height.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function on_get_block_hash(int $block_height, bool $as_array=FALSE): string|array {
         $params = [
@@ -39,8 +55,8 @@ class Monerod extends RPC {
      * Get a block template on which mining a new block.
      * @param string $wallet_address Address of wallet to receive coinbase transactions if block is successfully mined.
      * @param int $reserve_size Reserve size.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_template(string $wallet_address, int $reserve_size, bool $as_array=FALSE): string|array {
         $params = [
@@ -54,8 +70,8 @@ class Monerod extends RPC {
     /**
      * Submit a mined block to the network.
      * @param array $block_blob_data List of block blobs which have been mined.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function submit_block(array $block_blob_data, bool $as_array=FALSE): string|array {
         $params = $block_blob_data;
@@ -67,8 +83,8 @@ class Monerod extends RPC {
      * @param int $amount_of_blocks Number of blocks to be generated.
      * @param string $wallet_address Address to receive the coinbase reward.
      * @param int $starting_nonce Increased by miner until it finds a matching result that solves a block.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function generateblocks(int $amount_of_blocks, string $wallet_address, int $starting_nonce, bool $as_array=FALSE): string|array {
         $params = [
@@ -82,9 +98,9 @@ class Monerod extends RPC {
 
     /**
      * Block header information for the most recent block is easily retrieved with this method. No inputs are needed.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_last_block_header(bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -97,9 +113,9 @@ class Monerod extends RPC {
     /** Block header information can be retrieved using either a block's hash or height.
      * This method includes a block's hash as an input parameter to retrieve basic information about the block.
      * @param string $hash The block's sha256 hash.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_header_by_hash(string $hash, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -114,9 +130,9 @@ class Monerod extends RPC {
      * Similar to get_block_header_by_hash above, this method includes a block's height as an input
      * parameter to retrieve basic information about the block.
      * @param int $height The block's height.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_header_by_height(int $height, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -133,9 +149,9 @@ class Monerod extends RPC {
      * information about the range of blocks.
      * @param int $start_height The starting block's height.
      * @param int $end_height The ending block's height.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_headers_range(int $start_height, int $end_height, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -148,12 +164,12 @@ class Monerod extends RPC {
     }
 
     /**
-     * Full block information can be retrieved by block height, like with the block header calls.
+     * Block height can retrieve full block information, like with the block header calls.
      * For full block information, both lookups use the same method, but with different input parameters.
      * @param int $height The block's height.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_by_height(int $height, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -165,12 +181,12 @@ class Monerod extends RPC {
     }
 
     /**
-     * Full block information can be retrieved by block hash, like with the block header calls.
+     * Block hash can retrieve full block information, like with the block header calls.
      * For full block information, both lookups use the same method, but with different input parameters.
      * @param string $hash The block's hash.
-     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $fill_pow_hash Add PoW hash to block_header response. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_block_by_hash(string $hash, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -183,8 +199,8 @@ class Monerod extends RPC {
 
     /**
      * Retrieve information about incoming and outgoing connections to your node.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_connections(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -193,8 +209,8 @@ class Monerod extends RPC {
 
     /**
      * Retrieve general information about the state of your node and the network.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_info(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -203,8 +219,8 @@ class Monerod extends RPC {
 
     /**
      * Look up information regarding hard fork voting and readiness.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function hard_fork_info(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -214,8 +230,8 @@ class Monerod extends RPC {
     /**
      * Ban another node by IP.
      * @param array $bans array in format: [['host'=>string, 'ban'=>bool, 'seconds'=>int]] or [['ip'=>int, 'ban'=>bool, 'seconds'=>int]].
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_bans(array $bans, bool $as_array=FALSE): string|array {
         $params = [
@@ -226,9 +242,9 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get list of banned IPs.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * Get a list of banned IPs.
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_bans(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -238,8 +254,8 @@ class Monerod extends RPC {
     /**
      * Check if an IP address is banned and for how long.
      * @param string $address IP address.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function banned(string $address, bool $as_array=FALSE): string|array {
         $params = [
@@ -251,9 +267,9 @@ class Monerod extends RPC {
 
     /**
      * Flush tx ids from transaction pool.
-     * @param array|NULL $txids List of transactions IDs to flush from pool (Optional: all tx ids flushed if empty).
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param array|NULL $txids List of transaction IDs to flush from pool (Default: NULL).
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function flush_txpool(array|NULL $txids=NULL, bool $as_array=FALSE): string|array {
         $params = [
@@ -264,11 +280,11 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get the coinbase amount and the fees amount for n last blocks starting at particular height.
+     * Get the coinbase amount and the fee amount for n last blocks starting at particular height.
      * @param int $height Block height from which getting the amounts.
      * @param int $count Number of blocks to include in the sum.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_coinbase_tx_sum(int $height, int $count, bool $as_array=FALSE): string|array {
         $params = [
@@ -280,9 +296,9 @@ class Monerod extends RPC {
     }
 
     /**
-     * Give the node current version.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * Give the node's current version.
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_version(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -291,9 +307,9 @@ class Monerod extends RPC {
 
     /**
      * Gives an estimation on fees per byte.
-     * @param int|NULL $grace_blocks (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param int|NULL $grace_blocks (Default: NULL)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_fee_estimate(int|NULL $grace_blocks=NULL, bool $as_array=FALSE): string|array {
         $params = [
@@ -305,8 +321,8 @@ class Monerod extends RPC {
 
     /**
      * Display alternative chains seen by the node.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_alternate_chains(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -316,8 +332,8 @@ class Monerod extends RPC {
     /**
      * Relay a list of transaction IDs.
      * @param array $txids List of transaction IDs to relay.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function relay_tx(array $txids, bool $as_array=FALSE): string|array {
         $params = [
@@ -328,9 +344,9 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get synchronisation information.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * Get synchronization information.
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function sync_info(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -338,9 +354,9 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get all transaction pool backlog.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * Get all transaction pool backlogs.
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_txpool_backlog(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -349,11 +365,10 @@ class Monerod extends RPC {
 
     /**
      * @param array $amounts Amounts to look for.
-     * @param bool $cumulative States if the result should be cumulative (true) or not (false). (Optional)
-     * @param int $from_height Starting height to check from. (Optional)
-     * @param int $to_height Ending height to check up to. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $cumulative States if the result should be cumulative (true) or not (false). (Default: FALSE)
+     * @param int $from_height Starting height to check from. (Default: 0)
+     * @param int $to_height Ending height to check up to. (Default: 0)
+     * @return string|array RPC Response. (Default: FALSE)
      */
     public function get_output_distribution(array $amounts, bool $cumulative=FALSE, int $from_height=0, int $to_height=0,
                                             bool $as_array=FALSE): string|array {
@@ -369,8 +384,8 @@ class Monerod extends RPC {
 
     /**
      * Provide the necessary data to create a custom block template. They are used by p2pool.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_miner_data(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -379,9 +394,9 @@ class Monerod extends RPC {
 
     /**
      * Prune blockchain data.
-     * @param bool $check If set to (true) then pruning status is checked instead of initiating pruning.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $check If set to (true) then pruning status is checked instead of initiating pruning. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function prune_blockchain(bool $check=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -397,8 +412,8 @@ class Monerod extends RPC {
      * @param int $height
      * @param string $blobdata
      * @param string $seed_hash
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function calc_pow(int $major_version, int $height, string $blobdata,
                              string $seed_hash, bool $as_array=FALSE): string|array {
@@ -414,10 +429,10 @@ class Monerod extends RPC {
 
     /**
      * Flush bad transactions / blocks from the cache.
-     * @param bool $bad_txs Flush bad txs. (Optional)
-     * @param bool $bad_blocks Flush bad blocks. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $bad_txs Flush bad txs. (Default: FALSE)
+     * @param bool $bad_blocks Flush bad blocks. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function flush_cache(bool $bad_txs=FALSE, bool $bad_blocks=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -432,8 +447,8 @@ class Monerod extends RPC {
 
     /**
      * Get the node's current height.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_height(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -441,32 +456,13 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get all blocks info. Binary request.
-     * @param array $block_ids Binary array of hashes; first 10 blocks id goes sequential, next goes in pow(2,n) offset,
-     * like 2, 4, 8, 16, 32, 64 and so on, and the last one is always genesis block.
-     * @param int $start_height
-     * @param bool $prune
-     * @param bool $as_array Return result as an array.
-     * @return string|array
-     */
-    public function get_blocks_bin(array $block_ids, int $start_height, bool $prune, bool $as_array=FALSE): string|array {
-        $params = [
-            'block_ids'    => $block_ids,
-            'start_height' => $start_height,
-            'prune'        => $prune
-        ];
-
-        return parent::standardrpc_command('get_blocks.bin', $params, $as_array);
-    }
-
-    /**
      * Look up one or more transactions by hash.
      * @param array $txs_hashes List of transaction hashes to look up.
-     * @param bool $decode_as_json If set (true), the returned transaction information will be decoded rather than binary. (Optional)
-     * @param bool $prune (Optional)
-     * @param bool $split (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $decode_as_json If set (true), the returned transaction information will be decoded rather than binary. (Default: FALSE)
+     * @param bool $prune (Default: FALSE)
+     * @param bool $split (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_transactions(array $txs_hashes, bool $decode_as_json=FALSE, bool $prune=FALSE,
                                      bool $split=FALSE, bool $as_array=FALSE): string|array {
@@ -482,8 +478,8 @@ class Monerod extends RPC {
 
     /**
      * Get the known blocks hashes which are not on the main chain.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_alt_blocks_hashes(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -493,8 +489,8 @@ class Monerod extends RPC {
     /**
      * Check if outputs have been spent using the key image associated with the output.
      * @param array $key_images List of key image hex strings to check.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function is_key_image_spent(array $key_images, bool $as_array=FALSE): string|array {
         $params = [
@@ -507,9 +503,9 @@ class Monerod extends RPC {
     /**
      * Broadcast a raw transaction to the network.
      * @param string $tx_as_hex Full transaction information as hexidecimal string.
-     * @param bool $do_not_relay Stop relaying transaction to other nodes.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $do_not_relay Stop relaying transaction to other nodes. (Default: FALSE)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function send_raw_transaction(string $tx_as_hex, bool $do_not_relay=FALSE, bool $as_array=FALSE): string|array {
         $params = [
@@ -522,12 +518,12 @@ class Monerod extends RPC {
 
     /**
      * Start mining on the daemon.
-     * @param bool $do_background_mining States if the mining should run in background (true) or foreground (false).
+     * @param bool $do_background_mining States if the mining should run in the background (true) or foreground (false).
      * @param bool $ignore_battery States if battery state (on laptop) should be ignored (true) or not (false).
      * @param string $miner_address Account address to mine to.
-     * @param int $threads_count Number of mining thread to run.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param int $threads_count Number of mining threads to run.
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function start_mining(bool $do_background_mining, bool $ignore_battery, string $miner_address,
                                  int $threads_count, bool $as_array=FALSE): string|array {
@@ -543,8 +539,8 @@ class Monerod extends RPC {
 
     /**
      * Stop mining on the daemon.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function stop_mining(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -553,8 +549,8 @@ class Monerod extends RPC {
 
     /**
      * Get the mining status of the daemon.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function mining_status(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -562,10 +558,10 @@ class Monerod extends RPC {
     }
 
     /**
-     * Save the blockchain. The blockchain does not need saving and is always saved when modified, however it does a
+     * Save the blockchain. The blockchain does not need saving and is always saved when modified; however, it does a
      * sync to flush the filesystem cache onto the disk for safety purposes against Operating System or Hardware crashes.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function save_bc(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -574,8 +570,8 @@ class Monerod extends RPC {
 
     /**
      * Get the known peers list.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_peer_list(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -585,8 +581,8 @@ class Monerod extends RPC {
     /**
      * Set the log hash rate display mode.
      * @param bool $visible States if hash rate logs should be visible (true) or hidden (false)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_log_hash_rate(bool $visible, bool $as_array=FALSE): string|array {
         $params = [
@@ -597,10 +593,10 @@ class Monerod extends RPC {
     }
 
     /**
-     * Set the daemon log level. By default, log level is set to 0.
+     * Set the daemon log level. By default, the log level is set to 0.
      * @param int $level Daemon log level to set from 0 (less verbose) to 4 (most verbose)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_log_level(int $level, bool $as_array=FALSE): string|array {
         $params = [
@@ -614,9 +610,9 @@ class Monerod extends RPC {
      * Set the daemon log categories. Categories are represented as a comma separated list of {Category}:{level}
      * (similarly to syslog standard).
      * Find more information at https://www.getmonero.org/resources/developer-guides/daemon-rpc.html#set_log_categories.
-     * @param string|null $categories Daemon log categories to enable. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param string|null $categories Daemon log categories to enable. (Default: NULL)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_log_categories(string $categories=NULL, bool $as_array=FALSE): string|array {
         $params = $categories;
@@ -626,11 +622,11 @@ class Monerod extends RPC {
     /**
      * Give immediate usability to wallets while syncing by proxying RPC requests.
      * @param string $address host:port
-     * @param string|NULL $username
-     * @param string|NULL $password
-     * @param string|NULL $proxy
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param string|NULL $username (Default: NULL)
+     * @param string|NULL $password (Default: NULL)
+     * @param string|NULL $proxy (Default: NULL)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_bootstrap_daemon(string $address, string|NULL $username=NULL, string|NULL $password=NULL,
                                          string|NULL $proxy=NULL, bool $as_array=FALSE): string|array {
@@ -647,8 +643,8 @@ class Monerod extends RPC {
     /**
      * Show information about valid transactions seen by the node but not yet mined into a block, as well as spent
      * key image information for the txpool in the node's memory.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_transaction_pool(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -656,19 +652,9 @@ class Monerod extends RPC {
     }
 
     /**
-     * Get hashes from transaction pool. Binary request.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
-     */
-    public function get_transaction_pool_hashes_bin(bool $as_array=FALSE): string|array {
-        $params = NULL;
-        return parent::standardrpc_command('get_transaction_pool_hashes.bin', $params, $as_array);
-    }
-
-    /**
      * Get the transaction pool statistics.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_transaction_pool_stats(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -677,8 +663,8 @@ class Monerod extends RPC {
 
     /**
      * Send a command to the daemon to safely disconnect and shut down.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function stop_daemon(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -687,8 +673,8 @@ class Monerod extends RPC {
 
     /**
      * Get daemon bandwidth limits.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_limit(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -699,8 +685,8 @@ class Monerod extends RPC {
      * Set daemon bandwidth limits.
      * @param int $limit_down Download limit in kBytes per second (-1 reset to default, 0 don't change the current limit).
      * @param int $limit_up Upload limit in kBytes per second (-1 reset to default, 0 don't change the current limit).
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function set_limit(int $limit_down, int $limit_up, bool $as_array=FALSE): string|array {
         $params = [
@@ -712,10 +698,10 @@ class Monerod extends RPC {
     }
 
     /**
-     * Limit number of Outgoing peers.
+     * Limit the number of Outgoing peers.
      * @param int $out_peers Max number of outgoing peers.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function out_peers(int $out_peers, bool $as_array=FALSE): string|array {
         $params = [
@@ -726,10 +712,10 @@ class Monerod extends RPC {
     }
 
     /**
-     * Limit number of Incoming peers.
+     * Limit the number of Incoming peers.
      * @param int $in_peers Max number of incoming peers.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function in_peers(int $in_peers, bool $as_array=FALSE): string|array {
         $params = [
@@ -740,8 +726,8 @@ class Monerod extends RPC {
     }
 
     /**
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_net_stats(bool $as_array=FALSE): string|array {
         $params = NULL;
@@ -752,8 +738,8 @@ class Monerod extends RPC {
      * Get outputs.
      * @param array $outputs Outputs array of get_outputs_out structure as follows: [amount, index].
      * @param bool $get_txid If (true), a txid will include for each output in the response.
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function get_outs(array $outputs, bool $get_txid, bool $as_array=FALSE): string|array {
         $params = [
@@ -767,9 +753,9 @@ class Monerod extends RPC {
     /**
      * Update daemon.
      * @param string $command Command to use, either check or download.
-     * @param string|NULL $path Path where to download the update. (Optional)
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param string|NULL $path Path where to download the update. (Default: NULL)
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function update_daemon(string $command, string|NULL $path=NULL, bool $as_array=FALSE): string|array {
         $params = [
@@ -782,8 +768,8 @@ class Monerod extends RPC {
 
     /**
      * @param int $nblocks
-     * @param bool $as_array Return result as an array.
-     * @return string|array
+     * @param bool $as_array Return result as an array. (Default: FALSE)
+     * @return string|array RPC Response.
      */
     public function pop_blocks(int $nblocks, bool $as_array=FALSE): string|array {
         $params = [
