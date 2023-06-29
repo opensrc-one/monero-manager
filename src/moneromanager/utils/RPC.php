@@ -122,6 +122,6 @@ class RPC {
      * @return string Parsed uri string.
      */
     private function create_uri(string $command): string {
-        return "{$this->username}:{$this->password}/$command";
+        return "{$this->host}:{$this->port}/$command";
     }
 }

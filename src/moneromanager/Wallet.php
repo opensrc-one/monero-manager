@@ -135,13 +135,14 @@ class Wallet extends RPC {
 
     /**
      * Create a new address for an account. Optionally, label the new address.
-     * @param string $account_index Create a new address for this account.
+     * @param int $account_index Create a new address for this account.
      * @param string|NULL $label Label for the new address. (Default: NULL)
-     * @param int|NULL $count Number of addresses to create (Defaults to 1). (Default: NULL)
+     * @param int|NULL $count Number of addresses to create (Defaults to 1). (Default: 1)
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function create_address(string $account_index, string|NULL $label=NULL, int|NULL $count=NULL, bool $as_array=FALSE): string|array {
+    public function create_address(int $account_index, string|NULL $label=NULL, int|NULL $count=1,
+                                   bool $as_array=FALSE): string|array {
         $params = [
             'account_index' => $account_index,
             'label'         => $label,
@@ -178,7 +179,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function validate_address(string $address, bool $any_net_type=FALSE, bool $allow_openalias=FALSE, bool $as_array=FALSE): string|array {
+    public function validate_address(string $address, bool $any_net_type=FALSE, bool $allow_openalias=FALSE,
+                                     bool $as_array=FALSE): string|array {
         $params = [
             'account_index'   => $address,
             'label'           => $any_net_type,
@@ -386,7 +388,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function sign_transfer(string $unsigned_txset, bool $export_raw=FALSE, bool $get_tx_keys=FALSE, bool $as_array=FALSE): string|array {
+    public function sign_transfer(string $unsigned_txset, bool $export_raw=FALSE, bool $get_tx_keys=FALSE,
+                                  bool $as_array=FALSE): string|array {
         $params = [
             'unsigned_txset' => $unsigned_txset,
             'export_raw'     => $export_raw,
@@ -419,7 +422,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function sweep_dust(bool $get_tx_keys=FALSE, bool $do_not_relay=FALSE, bool $get_tx_hex=FALSE, bool $get_tx_metadata=FALSE, bool $as_array=FALSE): string|array {
+    public function sweep_dust(bool $get_tx_keys=FALSE, bool $do_not_relay=FALSE, bool $get_tx_hex=FALSE,
+                               bool $get_tx_metadata=FALSE, bool $as_array=FALSE): string|array {
         $params = [
             'get_tx_keys'     => $get_tx_keys,
             'do_not_relay'    => $do_not_relay,
@@ -577,7 +581,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function incoming_transfers(string $transfer_type, int $account_index=0, int|NULL $subaddr_indices=NULL, bool $as_array=FALSE): string|array {
+    public function incoming_transfers(string $transfer_type, int $account_index=0, int|NULL $subaddr_indices=NULL,
+                                       bool $as_array=FALSE): string|array {
         $params = [
             'transfer_type'   => $transfer_type,
             'account_index'   => $account_index,
@@ -608,7 +613,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function make_integrated_address(string|NULL $standard_address=NULL, string|NULL $payment_id=NULL, bool $as_array=FALSE): string|array {
+    public function make_integrated_address(string|NULL $standard_address=NULL, string|NULL $payment_id=NULL,
+                                            bool $as_array=FALSE): string|array {
         $params = [
             'standard_address' => $standard_address,
             'payment_id'       => $payment_id
@@ -771,7 +777,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function check_tx_proof(string $txid, string $address, string $signature, string|NULL $message=NULL, bool $as_array=FALSE): string|array {
+    public function check_tx_proof(string $txid, string $address, string $signature, string|NULL $message=NULL,
+                                   bool $as_array=FALSE): string|array {
         $params = [
             'txid'      => $txid,
             'address'   => $address,
@@ -806,7 +813,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function check_spend_proof(string $txid, string $signature, string|NULL $message=NULL, bool $as_array=FALSE): string|array {
+    public function check_spend_proof(string $txid, string $signature, string|NULL $message=NULL,
+                                      bool $as_array=FALSE): string|array {
         $params = [
             'txid'      => $txid,
             'signature' => $signature,
@@ -826,7 +834,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function get_reserve_proof(bool $all, int|NULL $account_index=NULL, int|NULL $amount=NULL, string|NULL $message=NULL,  bool $as_array=FALSE): string|array {
+    public function get_reserve_proof(bool $all, int|NULL $account_index=NULL, int|NULL $amount=NULL,
+                                      string|NULL $message=NULL,  bool $as_array=FALSE): string|array {
         $params = [
             'all'           => $all,
             'account_index' => $account_index,
@@ -846,7 +855,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function check_reserve_proof(string $address, string $signature, string|NULL $message=NULL, bool $as_array=FALSE): string|array {
+    public function check_reserve_proof(string $address, string $signature, string|NULL $message=NULL,
+                                        bool $as_array=FALSE): string|array {
         $params = [
             'address'   => $address,
             'signature' => $signature,
@@ -875,7 +885,8 @@ class Wallet extends RPC {
      */
     public function get_transfers(bool $in=FALSE, bool $out=FALSE, bool $pending=FALSE, bool $failed=FALSE, bool $pool=FALSE,
                                   bool $filter_by_height=FALSE, int|NULL $min_height=NULL, int|NULL $max_height=NULL,
-                                  int $account_index=0, array|NULL $subaddr_indices=NULL, bool $all_accounts=FALSE, bool $as_array=FALSE): string|array {
+                                  int $account_index=0, array|NULL $subaddr_indices=NULL, bool $all_accounts=FALSE,
+                                  bool $as_array=FALSE): string|array {
         $params = [
             'in'               => $in,
             'out'              => $out,
@@ -920,7 +931,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function describe_transfer(string|NULL $unsigned_txset=NULL, string|NULL $multisig_txset=NULL, bool $as_array=FALSE): string|array {
+    public function describe_transfer(string|NULL $unsigned_txset=NULL, string|NULL $multisig_txset=NULL,
+                                      bool $as_array=FALSE): string|array {
         $params = [
             'unsigned_txset' => $unsigned_txset,
             'multisig_txset' => $multisig_txset
@@ -1078,7 +1090,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function add_address_book(string $address, string|NULL $payment_id=NULL, string|NULL $description=NULL, bool $as_array=FALSE): string|array {
+    public function add_address_book(string $address, string|NULL $payment_id=NULL, string|NULL $description=NULL,
+                                     bool $as_array=FALSE): string|array {
         $params = [
             'address'     => $address,
             'payment_id'  => $payment_id,
@@ -1102,7 +1115,8 @@ class Wallet extends RPC {
      */
     public function edit_address_book(int $index, bool $set_address, string|NULL $address=NULL,
                                       bool $set_description=FALSE, string|NULL $description=NULL,
-                                      bool $set_payment_id=FALSE, string|NULL $payment_id=NULL, bool $as_array=FALSE): string|array {
+                                      bool $set_payment_id=FALSE, string|NULL $payment_id=NULL,
+                                      bool $as_array=FALSE): string|array {
         $params = [
             'index'           => $index,
             'set_address'     => $set_address,
@@ -1179,7 +1193,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function start_mining(int $threads_count, bool $do_background_mining=FALSE, bool $ignore_battery=FALSE, bool $as_array=FALSE): string|array {
+    public function start_mining(int $threads_count, bool $do_background_mining=FALSE, bool $ignore_battery=FALSE,
+                                 bool $as_array=FALSE): string|array {
         $params = [
             'threads_count'        => $threads_count,
             'do_background_mining' => $do_background_mining,
@@ -1217,7 +1232,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function create_wallet(string $filename, string|NULL $password=NULL, string $language='English', bool $as_array=FALSE): string|array {
+    public function create_wallet(string $filename, string|NULL $password=NULL, string $language='English',
+                                  bool $as_array=FALSE): string|array {
         $params = [
             'filename' => $filename,
             'password' => $password,
@@ -1240,7 +1256,8 @@ class Wallet extends RPC {
      * @return string|array RPC Response.
      */
     public function generate_from_keys(string $filename, string $address, string $viewkey, string $password,
-                                       int $restore_height=0, string|NULL $spendkey=NULL, bool $autosave_current=TRUE, bool $as_array=FALSE): string|array {
+                                       int $restore_height=0, string|NULL $spendkey=NULL, bool $autosave_current=TRUE,
+                                       bool $as_array=FALSE): string|array {
         $params = [
             'filename'         => $filename,
             'address'          => $address,
@@ -1283,8 +1300,9 @@ class Wallet extends RPC {
      * @return string|array RPC Response.
      */
     public function restore_deterministic_wallet(string $filename, string $password, string $seed,
-                                                 int $restore_height=0, string|NULL $language=NULL, string|NULL $seed_offset=NULL,
-                                                 bool $autosave_current=TRUE, bool $as_array=FALSE): string|array {
+                                                 int $restore_height=0, string|NULL $language=NULL,
+                                                 string|NULL $seed_offset=NULL, bool $autosave_current=TRUE,
+                                                 bool $as_array=FALSE): string|array {
         $params = [
             'filename'         => $filename,
             'password'         => $password,
@@ -1315,7 +1333,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function change_wallet_password(string|NULL $old_password=NULL, string|NULL $new_password=NULL, bool $as_array=FALSE): string|array {
+    public function change_wallet_password(string|NULL $old_password=NULL, string|NULL $new_password=NULL,
+                                           bool $as_array=FALSE): string|array {
         $params = [
             'old_password' => $old_password,
             'new_password' => $new_password
@@ -1491,7 +1510,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function exchange_multisig_keys(string $password, string $multisig_info, bool $force_update_use_with_caution=FALSE, bool $as_array=FALSE): string|array {
+    public function exchange_multisig_keys(string $password, string $multisig_info,
+                                           bool $force_update_use_with_caution=FALSE, bool $as_array=FALSE): string|array {
         $params = [
             'password'                      => $password,
             'multisig_info'                 => $multisig_info,
@@ -1509,7 +1529,8 @@ class Wallet extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function estimate_tx_size_and_weight(int $n_inputs, int $n_outputs, int|NULL $ring_size=NULL, bool $rct=TRUE, bool $as_array=FALSE): string|array {
+    public function estimate_tx_size_and_weight(int $n_inputs, int $n_outputs, int|NULL $ring_size=NULL,
+                                                bool $rct=TRUE, bool $as_array=FALSE): string|array {
         $params = [
             'n_inputs'  => $n_inputs,
             'n_outputs' => $n_outputs,

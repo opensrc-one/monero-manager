@@ -20,7 +20,6 @@ namespace test;
 
 include('../src/moneromanager/Monerod.php');
 
-use Cassandra\Exception\TruncateException;
 use moneromanager\Monerod;
 
 $node = [

@@ -86,7 +86,8 @@ class Monerod extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function generateblocks(int $amount_of_blocks, string $wallet_address, int $starting_nonce, bool $as_array=FALSE): string|array {
+    public function generateblocks(int $amount_of_blocks, string $wallet_address, int $starting_nonce,
+                                   bool $as_array=FALSE): string|array {
         $params = [
             'amount_of_blocks' => $amount_of_blocks,
             'wallet_address'   => $wallet_address,
@@ -153,7 +154,8 @@ class Monerod extends RPC {
      * @param bool $as_array Return result as an array. (Default: FALSE)
      * @return string|array RPC Response.
      */
-    public function get_block_headers_range(int $start_height, int $end_height, bool $fill_pow_hash=FALSE, bool $as_array=FALSE): string|array {
+    public function get_block_headers_range(int $start_height, int $end_height, bool $fill_pow_hash=FALSE,
+                                            bool $as_array=FALSE): string|array {
         $params = [
             'start_height'  => $start_height,
             'end_height'    => $end_height,
